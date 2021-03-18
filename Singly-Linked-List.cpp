@@ -10,49 +10,56 @@ public:
     node *next;
 };
 
-class linkedList : public node
+class SinglylinkedList : public node
 {
-    node *head, *last, *n2;
+    node *head;
 
 public:
-    linkedList()
+    SinglylinkedList()
     {
-        head = last = NULL; // list is empty
+        head = NULL; // list is empty
     }
 
     void create()
     {
         node *temp = new node; //dynamic memory allocation
+        node *ptr = head;
         int d;
+
         cout << "\nEnter the data: ";
         cin >> d;
         temp->data = d;
         temp->next = NULL;
+
         if (head == NULL)
         {
             head = temp; //pointing to first node
-            last = temp;
         }
         else
         {
-            last->next = temp;
-            last = temp;
+            while (ptr->next != NULL)
+            {
+                ptr = ptr->next;
+            }
+            ptr->next = temp;
         }
     }
 
     void insert()
     {
         node *temp = new node;
-        node *prev = NULL;
-        node *curr = head;
-        int count = 1, pos, ch, d;
+        node *ptr = head;
+        int count = 2, pos, ch, d;
+
         cout << "\nEnter data: ";
         cin >> d;
         temp->data = d;
         temp->next = NULL;
+
         cout << "\nINSERT AS\n1) FIRST NODE\n2) LAST NODE\n3) IN BETWEEN";
         cout << "\nEnter Your Choice: ";
         cin >> ch;
+
         switch (ch)
         {
         case 1:
@@ -61,36 +68,43 @@ public:
             break;
 
         case 2:
-            last->next = temp; // Attach new node at the end
-            last = temp;       // assign last to the end node
+            while (ptr->next != NULL)
+            {
+                ptr = ptr->next;
+            }
+            ptr->next = temp;
             break;
 
         case 3:
-            cout << "\n Enter the position you want to insert node: ";
+            cout << "\nEnter the position you want to insert node: ";
             cin >> pos;
             while (count != pos)
             {
-                prev = curr;       // prev is equal to pos
-                curr = curr->next; // curr is pos+1
+                ptr = ptr->next;
                 count++;
             }
             if (count == pos)
             {
-                prev->next = temp;
-                temp->next = curr;
+                temp->next = ptr->next;
+                ptr->next = temp;
             }
             break;
+
+        default:
+            cout << "Invalid Choice!";
         }
     }
 
     void del()
     {
         node *prev = NULL;
-        node *curr = head;
+        node *ptr = head;
         int count = 1, pos, ch;
+
         cout << "\nDELETE\n1) FIRST NODE\n2) LAST NODE\n3) IN BETWEEN";
         cout << "\nEnter Your Choice: ";
         cin >> ch;
+
         switch (ch)
         {
         case 1:
@@ -100,73 +114,62 @@ public:
                 head = head->next;
             }
             break;
+
         case 2:
-            while (curr != last)
+            while (ptr->next != NULL)
             {
-                prev = curr;
-                curr = curr->next;
+                prev = ptr;
+                ptr = ptr->next;
             }
-            if (curr == last)
-            {
-                cout << "\ndeleted node is: " << curr->data;
-                prev->next = NULL;
-                last = prev;
-            }
+            cout << "\nDeleted node is: " << ptr->data << endl;
+            prev->next = NULL;
             break;
+
         case 3:
-            cout << "\n Enter the position you want to delete node: ";
+            cout << "\nEnter the position you want to delete node: ";
             cin >> pos;
             while (count != pos)
             {
-                prev = curr;
-                curr = curr->next;
+                prev = ptr;
+                ptr = ptr->next;
                 count++;
             }
             if (count == pos)
             {
-                cout << "\nDeleted node is: " << curr->data << endl;
-                prev->next = curr->next;
+                cout << "\nDeleted node is: " << ptr->data << endl;
+                prev->next = ptr->next;
             }
+            break;
+
+        default:
+            cout << "Invalid Choice!";
         }
     }
 
     void reverse()
     {
-        node *curr = head;
-        node *prev = NULL;
-        node *next = NULL;
-        while (curr != NULL)
+        node *current = head;
+        node *prev = NULL, *nxt = NULL;
+
+        while (current != NULL)
         {
-            next = curr->next; // reverse current node's pointer
-            curr->next = prev; // move pointers one position ahead
-            prev = curr;       //swapping
-            curr = next;       //swapping of roles
+            nxt = current->next;  // Reverse current node's pointer
+            current->next = prev; // Move pointers one position ahead.
+            prev = current;
+            current = nxt;
         }
         head = prev;
     }
 
-    void seclist()
+    void con(SinglylinkedList l1)
     {
-        int ch;
-        cout << "Pls create a 2nd list: " << endl;
-        cout << "How many nodes would you like to append: ";
-        cin >> ch;
-        for (int i = 1; i <= ch; i++)
+        node *ptr1 = head;
+        node *ptr2 = l1.head;
+        while (ptr1->next != NULL)
         {
-            create();
+            ptr1 = ptr1->next;
         }
-    }
-
-    void con(linkedList l1)
-    {
-        node *x = head;
-        node *y = l1.head;
-        node *temp = head;
-        while (x->next != NULL)
-        {
-            x = x->next;
-        }
-        x->next = y;
+        ptr1->next = ptr2;
     }
 
     void display()
@@ -174,7 +177,7 @@ public:
         node *temp = head;
         if (head == NULL)
         {
-            cout << "\n List is empty";
+            cout << "\nList is empty";
         }
         cout << "\nList is: ";
         while (temp != NULL)
@@ -190,7 +193,7 @@ int main()
 {
     system("cls");
     int ch, n;
-    linkedList l, l1;
+    SinglylinkedList l, l1;
     while (1)
     {
         cout << endl
@@ -220,7 +223,11 @@ int main()
             l.display();
             break;
         case 5:
-            l1.seclist();
+            cout << "Enter number of nodes you want to enter: ";
+            cin >> n;
+            for (int i = 0; i < n; i++)
+                l1.create();
+            cout << "\nNewly Created";
             l1.display();
             l.con(l1);
             cout << "\n\nConcatenated list is: ";
