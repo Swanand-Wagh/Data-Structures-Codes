@@ -188,12 +188,13 @@ public:
 
 int main()
 {
+    system("cls");
     int ch, n;
     linkedList l, l1;
     while (1)
     {
         cout << endl
-             << "\n##### MENU #####";
+             << "\n########## Singly Linked List ##########";
         cout << "\n1) CREATE\n2) INSERT\n3) DELETE\n4) REVERSE\n5) CONCATENATE\n6) EXIT\n";
         cout << "\nEnter Your Choice: ";
         cin >> ch;
