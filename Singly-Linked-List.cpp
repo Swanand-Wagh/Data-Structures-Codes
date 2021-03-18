@@ -110,7 +110,7 @@ public:
         case 1:
             if (head != NULL)
             {
-                cout << "\nDeleted node is: " << head->data << endl;
+                cout << "\nDeleted first node is: " << head->data << endl;
                 head = head->next;
             }
             break;
@@ -121,7 +121,7 @@ public:
                 prev = ptr;
                 ptr = ptr->next;
             }
-            cout << "\nDeleted node is: " << ptr->data << endl;
+            cout << "\nDeleted last node is: " << ptr->data << endl;
             prev->next = NULL;
             break;
 
@@ -136,7 +136,7 @@ public:
             }
             if (count == pos)
             {
-                cout << "\nDeleted node is: " << ptr->data << endl;
+                cout << "\nDeleted middle node is: " << ptr->data << endl;
                 prev->next = ptr->next;
             }
             break;
@@ -234,7 +234,7 @@ int main()
             l.display();
             break;
         case 6:
-            break;
+            exit(0);
         }
     }
     return 0;

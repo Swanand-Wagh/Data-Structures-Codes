@@ -25,10 +25,12 @@ public:
         node *temp = new node; //dynamic memory allocation
         node *ptr = head;
         int d;
+
         cout << "\nEnter the data: ";
         cin >> d;
         temp->data = d;
         temp->next = NULL;
+
         if (head == NULL)
         {
             head = temp;
@@ -48,12 +50,14 @@ public:
     void insert()
     {
         node *temp = new node;
-        int count = 2, pos, ch, d;
         node *ptr = head;
+        int count = 2, pos, ch, d;
+
         cout << "\nEnter data: ";
         cin >> d;
         temp->data = d;
         temp->next = NULL;
+
         cout << "\nINSERT AS\n1) FIRST NODE\n2) LAST NODE\n3) IN BETWEEN";
         cout << "\nEnter Your Choice: ";
         cin >> ch;
@@ -93,6 +97,7 @@ public:
                 ptr->next = temp;
             }
             break;
+
         default:
             cout << "Invalid Choice!";
         }
@@ -103,9 +108,11 @@ public:
         node *ptr = head;
         node *prev = NULL;
         int count = 1, pos, ch;
+
         cout << "\nDELETE AS\n1) FIRST NODE\n2) LAST NODE\n3) IN BETWEEN";
         cout << "\nEnter Your Choice: ";
         cin >> ch;
+
         switch (ch)
         {
         case 1:
@@ -114,16 +121,20 @@ public:
                 ptr = ptr->next;
             }
             ptr->next = head->next;
+            cout << "\nDeleted first node is: " << head->data << endl;
             head = head->next;
             break;
+
         case 2:
             while (ptr->next != head)
             {
                 prev = ptr;
                 ptr = ptr->next;
             }
+            cout << "\nDeleted last node is: " << ptr->data << endl;
             prev->next = head;
             break;
+
         case 3:
             cout << "\nEnter the position you want to delete node: ";
             cin >> pos;
@@ -135,9 +146,11 @@ public:
             }
             if (count == pos)
             {
+                cout << "\nDeleted middle node is: " << ptr->data << endl;
                 prev->next = ptr->next;
             }
             break;
+
         default:
             cout << "Invalid Choice!";
         }
