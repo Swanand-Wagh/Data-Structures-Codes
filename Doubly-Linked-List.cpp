@@ -51,8 +51,8 @@ public:
     void insert()
     {
         node *temp = new node;
-        int count = 2, pos, ch, d;
         node *ptr = head;
+        int count = 2, pos, ch, d;
 
         cout << "\nEnter data: ";
         cin >> d;
@@ -63,6 +63,7 @@ public:
         cout << "\nINSERT AS\n1) FIRST NODE\n2) LAST NODE\n3) IN BETWEEN";
         cout << "\nEnter Your Choice: ";
         cin >> ch;
+
         switch (ch)
         {
         case 1:
@@ -116,6 +117,7 @@ public:
         {
         case 1:
             head->next->previous = NULL;
+            cout << "\nDeleted node is: " << head->data << endl;
             head = head->next;
             break;
 
@@ -125,8 +127,9 @@ public:
                 prev = ptr;
                 ptr = ptr->next;
             }
-            // ptr->previous->next = NULL;
+            ptr->previous->next = NULL;
             prev->next = NULL;
+            cout << "\nDeleted node is: " << ptr->data << endl;
             break;
 
         case 3:
@@ -140,6 +143,7 @@ public:
             }
             if (count == pos)
             {
+                cout << "\nDeleted node is: " << ptr->data << endl;
                 prev->next = ptr->next;
                 ptr->next->previous = prev;
             }
