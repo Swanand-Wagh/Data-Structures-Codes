@@ -4,9 +4,9 @@
 
 <h4>Implement for all 3 Linked Lists</h4>
 <ul>
-    <li>1. Create Node</li> 
-    <li>2. Insert Node</li> 
-    <li>3. Delete Node</li> 
-    <li>4. Reverse List</li> 
-    <li>5. Concatenate List</li> 
+    <li> Create Node</li> 
+    <li> Insert Node</li> 
+    <li> Delete Node</li> 
+    <li> Reverse List</li> 
+    <li> Concatenate List</li> 
 </ul>
