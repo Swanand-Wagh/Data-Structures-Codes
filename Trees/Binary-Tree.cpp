@@ -232,7 +232,7 @@ int main()
 
         case 1:
             cout << "\nINSERT" << endl;
-            cout << "Enter data of TREE NODE to INSERT in BST: ";
+            cout << "Enter data of TREE NODE to INSERT in Binary Tree: ";
             cin >> d;
             new_node->data = d;
 
