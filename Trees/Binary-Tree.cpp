@@ -3,29 +3,49 @@
 #include <iostream>
 using namespace std;
 #define SPACE 10
+#define MAX 100
 
 class TreeNode
 {
 public:
-    int value;
+    int data;
     TreeNode *left;
     TreeNode *right;
 
     TreeNode()
     {
-        value = 0;
+        data = 0;
         left = NULL;
         right = NULL;
     }
-    TreeNode(int v)
+    TreeNode(int d)
     {
-        value = v;
+        data = d;
         left = NULL;
         right = NULL;
     }
 };
 
-class BinaryTree
+class stack : public TreeNode
+{
+    int top;
+    TreeNode *item[MAX];
+
+public:
+    stack() { top = -1; }
+
+    void push(TreeNode *p) { item[++top] = p; }
+
+    TreeNode *pop() { return item[top--]; }
+
+    int isfull() { return top == MAX; }
+
+    int isempty() { return top == -1; }
+
+    TreeNode *peek() { return item[top]; }
+};
+
+class BinaryTree : public TreeNode
 {
 public:
     TreeNode *root;
@@ -39,7 +59,7 @@ public:
         if (root == NULL)
         {
             root = new_node;
-            cout << "Value Inserted as root node!" << endl;
+            cout << "data Inserted as root node!" << endl;
         }
         else
         {
@@ -47,7 +67,7 @@ public:
             TreeNode *temp = root;
             while (1)
             {
-                cout << "Left or right (1/2) of " << temp->value << "? : ";
+                cout << "Left or right (1/2) of " << temp->data << "? : ";
                 cin >> ch;
 
                 if (ch == 1)
@@ -55,7 +75,7 @@ public:
                     if (temp->left == NULL)
                     {
                         temp->left = new_node;
-                        cout << "Value Inserted to the left!" << endl;
+                        cout << "data Inserted to the left!" << endl;
                         break;
                     }
                     else
@@ -66,7 +86,7 @@ public:
                     if (temp->right == NULL)
                     {
                         temp->right = new_node;
-                        cout << "Value Inserted to the right!" << endl;
+                        cout << "data Inserted to the right!" << endl;
                         break;
                     }
                     else
@@ -80,26 +100,23 @@ public:
 
     void print2D(TreeNode *r, int space)
     {
-        if (r == NULL) // Base case  1
+        if (r == NULL) // Base case
             return;
-        space += SPACE;           // Increase distance between levels   2
-        print2D(r->right, space); // Process right child first 3
+        space += SPACE;           // Increase distance between levels
+        print2D(r->right, space); // Process right child first
         cout << endl;
-        for (int i = SPACE; i < space; i++) // 5
-            cout << " ";                    // 5.1
-        cout << r->value << "\n";           // 6
-        print2D(r->left, space);            // Process left child  7
+        for (int i = SPACE; i < space; i++)
+            cout << " ";
+        cout << r->data << "\n";
+        print2D(r->left, space); // Process left child
     }
 
     void printPreorder(TreeNode *r) //(current node, Left, Right)
     {
         if (r == NULL)
             return;
-        /* first print data of node */
-        cout << r->value << " ";
-        /* then recur on left sutree */
+        cout << r->data << " ";
         printPreorder(r->left);
-        /* now recur on right subtree */
         printPreorder(r->right);
     }
 
@@ -107,11 +124,8 @@ public:
     {
         if (r == NULL)
             return;
-        /* first recur on left child */
         printInorder(r->left);
-        /* then print the data of node */
-        cout << r->value << " ";
-        /* now recur on right child */
+        cout << r->data << " ";
         printInorder(r->right);
     }
 
@@ -119,12 +133,76 @@ public:
     {
         if (r == NULL)
             return;
-        // first recur on left subtree
         printPostorder(r->left);
-        // then recur on right subtree
         printPostorder(r->right);
-        // now deal with the node
-        cout << r->value << " ";
+        cout << r->data << " ";
+    }
+
+    void IterativePreOrder()
+    {
+        TreeNode *temp = root;
+        stack s;
+        while (1)
+        {
+            while (temp != NULL)
+            {
+                cout << temp->data << " ";
+                s.push(temp);
+                temp = temp->left;
+            }
+            if (s.isempty())
+                break;
+            temp = s.pop();
+            temp = temp->right;
+        }
+    }
+
+    void IterativeInOrder()
+    {
+        TreeNode *temp = root;
+        stack s;
+        while (1)
+        {
+            while (temp != NULL)
+            {
+                s.push(temp);
+                temp = temp->left;
+            }
+            if (s.isempty())
+                break;
+            temp = s.pop();
+            cout << temp->data << " ";
+            temp = temp->right;
+        }
+    }
+
+    void IterativePostOrder()
+    {
+        TreeNode *temp = root;
+        TreeNode *q;
+        stack s;
+        while (1)
+        {
+            while (temp != NULL)
+            {
+                if (temp->right)
+                    s.push(temp->right);
+                s.push(temp);
+                temp = temp->left;
+            }
+            temp = s.pop();
+            if (temp->right && s.peek() == temp->right)
+            {
+                q = s.pop();
+                s.push(temp);
+                temp = temp->right;
+                continue;
+            }
+            cout << temp->data << " ";
+            temp = NULL;
+            if (s.isempty())
+                break;
+        }
     }
 };
 
@@ -132,7 +210,7 @@ int main()
 {
     system("cls");
     BinaryTree obj;
-    int option, val;
+    int option, d, ch;
     do
     {
         cout << "\nWhat operation do you want to perform? "
@@ -154,9 +232,10 @@ int main()
 
         case 1:
             cout << "\nINSERT" << endl;
-            cout << "Enter VALUE of TREE NODE to INSERT in BST: ";
-            cin >> val;
-            new_node->value = val;
+            cout << "Enter data of TREE NODE to INSERT in BST: ";
+            cin >> d;
+            new_node->data = d;
+
             obj.insertNode(new_node);
             cout << endl;
             obj.print2D(obj.root, 5);
@@ -164,21 +243,54 @@ int main()
             break;
 
         case 2:
-            cout << "In-Order Traversal: ";
-            obj.printInorder(obj.root);
-            cout << endl;
+            cout << "1. Recursive In-Order Traversal\n2. Iterative In-Order Traversal\nEnter Choice: ";
+            cin >> ch;
+            cout << "\nIn-Order Traversal: ";
+
+            if (ch == 1)
+            {
+                obj.printInorder(obj.root);
+                cout << endl;
+            }
+            else
+            {
+                obj.IterativeInOrder();
+                cout << endl;
+            }
             break;
 
         case 3:
-            cout << "Pre-Order Traversal: ";
-            obj.printPreorder(obj.root);
-            cout << endl;
+            cout << "1. Recursive Pre-Order Traversal\n2. Iterative Pre-Order Traversal\nEnter Choice: ";
+            cin >> ch;
+            cout << "\nPre-Order Traversal: ";
+
+            if (ch == 1)
+            {
+                obj.printPreorder(obj.root);
+                cout << endl;
+            }
+            else
+            {
+                obj.IterativePreOrder();
+                cout << endl;
+            }
             break;
 
         case 4:
-            cout << "Post-Order Traversal: ";
-            obj.printPostorder(obj.root);
-            cout << endl;
+            cout << "1. Recursive Post-Order Traversal\n2. Iterative Post-Order Traversal\nEnter Choice: ";
+            cin >> ch;
+            cout << "\nPost-Order Traversal: ";
+
+            if (ch == 1)
+            {
+                obj.printPostorder(obj.root);
+                cout << endl;
+            }
+            else
+            {
+                obj.IterativePostOrder();
+                cout << endl;
+            }
             break;
 
         default:
