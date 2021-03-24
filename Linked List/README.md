@@ -2,7 +2,7 @@
 
 <h3>Question ❓</h3>
 
-<h4>Implement for all 3 Linked Lists</h4>
+<h4>Implement for all SLL, CLL, DLL Linked Lists</h4>
 <ul>
     <li> Create Node</li> 
     <li> Insert Node</li> 
