@@ -3,6 +3,7 @@
 #include <iostream>
 using namespace std;
 #define SPACE 10
+int cnt = 0;
 
 class TreeNode
 {
@@ -95,7 +96,6 @@ public:
   void SearchNode(int d)
   {
     TreeNode *temp = root;
-    int cnt = 0;
 
     if (root == NULL)
     {
@@ -108,6 +108,7 @@ public:
       {
         if (d == temp->data)
         {
+          cnt = 1;
           cout << "\nValue found!\n\n";
           return;
         }
@@ -120,13 +121,64 @@ public:
     if (cnt == 0)
       cout << "\nValue is not present in the BST!\n\n";
   }
+
+  TreeNode *MinValueNode(TreeNode *node)
+  {
+    TreeNode *current = node;
+
+    while (current->left != NULL) /* loop down to find the leftmost leaf */
+      current = current->left;
+
+    return current;
+  }
+
+  TreeNode *DeleteNode(TreeNode *r, int v)
+  {
+    // base case empty condition
+    if (r == NULL)
+      return NULL;
+    // If the data to be deleted is smaller than the root's data, then it lies in left subtree
+    else if (v < r->data)
+      r->left = DeleteNode(r->left, v);
+    // If the data to be deleted is greater than the root's data, then it lies in right subtree
+    else if (v > r->data)
+      r->right = DeleteNode(r->right, v);
+    // if data is same as root's data, then This is the node to be deleted
+    else
+    {
+      // node with only one child or no child
+      if (r->left == NULL) // has a right child
+      {
+        TreeNode *temp = r->right;
+        delete r;
+        return temp;
+      }
+      else if (r->right == NULL) // has a left child
+      {
+        TreeNode *temp = r->left;
+        delete r;
+        return temp;
+      }
+      else
+      {
+        // node with 2 children: Get the In-Order successor (smallest in the right subtree)
+        TreeNode *temp = MinValueNode(r->right);
+        // Copy the inorder successor's content to this node
+        r->data = temp->data;
+        // Delete the inorder successor
+        r->right = DeleteNode(r->right, temp->data);
+        //deleteNode(r->right, temp->value);
+      }
+    }
+    return r;
+  }
 };
 
 int main()
 {
   system("cls");
   BinarySearchTree obj;
-  int option, d;
+  int option, d, val;
   do
   {
     cout << "What operation do you want to perform? "
@@ -156,13 +208,24 @@ int main()
       break;
 
     case 2:
-      int val;
       cout << "Enter value to search in the BST: ";
       cin >> val;
       obj.SearchNode(val);
       break;
 
     case 3:
+      cout << "\nDELETE" << endl;
+      cout << "Enter Value to Delete from BST: ";
+      cin >> val;
+
+      obj.SearchNode(val);
+      if (cnt != 0)
+      {
+        obj.DeleteNode(obj.root, val);
+        cout << "Node having Value " << val << " has been Deleted!" << endl;
+        obj.print2D(obj.root, 5);
+        cout << endl;
+      }
       break;
 
     default:
