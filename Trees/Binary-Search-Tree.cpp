@@ -80,17 +80,17 @@ public:
     }
   }
 
-  void print2D(TreeNode *r, int space)
+  void displayTree(TreeNode *r, int space)
   {
     if (r == NULL) // Base case
       return;
-    space += SPACE;           // Increase distance between levels
-    print2D(r->right, space); // Process right child first
+    space += SPACE;               // Increase distance between levels
+    displayTree(r->right, space); // Process right child first
     cout << endl;
     for (int i = SPACE; i < space; i++)
       cout << " ";
     cout << r->data << "\n";
-    print2D(r->left, space); // Process left child
+    displayTree(r->left, space); // Process left child
   }
 
   void SearchNode(int d)
@@ -203,7 +203,7 @@ int main()
       new_node->data = d;
 
       obj.insertNode(new_node);
-      obj.print2D(obj.root, 5);
+      obj.displayTree(obj.root, 5);
       cout << endl;
       break;
 
@@ -223,7 +223,7 @@ int main()
       {
         obj.DeleteNode(obj.root, val);
         cout << "Node having Value " << val << " has been Deleted!" << endl;
-        obj.print2D(obj.root, 5);
+        obj.displayTree(obj.root, 5);
         cout << endl;
       }
       break;
