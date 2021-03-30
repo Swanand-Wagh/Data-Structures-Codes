@@ -100,6 +100,7 @@ public:
     if (root == NULL)
     {
       cout << "\nBST is Empty!\n\n";
+      cnt = 0;
       return;
     }
     else
@@ -210,6 +211,7 @@ int main()
     case 2:
       cout << "Enter value to search in the BST: ";
       cin >> val;
+      cnt = 0;
       obj.SearchNode(val);
       break;
 
@@ -218,6 +220,7 @@ int main()
       cout << "Enter Value to Delete from BST: ";
       cin >> val;
 
+      cnt = 0;
       obj.SearchNode(val);
       if (cnt != 0)
       {
