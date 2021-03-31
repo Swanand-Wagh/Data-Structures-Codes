@@ -35,14 +35,6 @@ public:
     root = NULL;
   }
 
-  bool isTreeEmpty()
-  {
-    if (root == NULL)
-      return true;
-    else
-      return false;
-  }
-
   void insertNode(TreeNode *new_node)
   {
     if (root == NULL)
