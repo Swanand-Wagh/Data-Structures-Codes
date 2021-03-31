@@ -168,7 +168,6 @@ public:
         r->data = temp->data;
         // Delete the inorder successor
         r->right = DeleteNode(r->right, temp->data);
-        //deleteNode(r->right, temp->value);
       }
     }
     return r;
